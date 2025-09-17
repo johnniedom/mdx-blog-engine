@@ -1,47 +1,49 @@
-# MDX Blog Engine Boilerplate
+# MDX Blog Engine
 
-This boilerplate provides a lightweight, file-based blog engine using Next.js and Content Collections.
+A minimal, type‑safe MDX blog powered by Next.js App Router, Tailwind CSS, and Content Collections. Write posts in `content/posts/*.mdx` and ship a fast, SEO‑friendly blog.
 
-## Cloning the Repository
+## Quick start
 
-To get started with this project, you need to clone the repository from GitHub. You can do this by running the following command in your terminal:
+1. Clone and install
 
 ```bash
 git clone https://github.com/johnniedom/mdx-blog-engine.git
+cd mdx-blog-engine
+pnpm install
 ```
 
-After cloning the repository, navigate to the project directory:
+2. Run in development
 
 ```bash
-cd mdx-blog-engine
+pnpm dev
 ```
 
-## Getting Started
+3. Create a post
 
-1.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+- Add a new `.mdx` file under `content/posts` with frontmatter:
 
-2.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+```mdx
+---
+title: "My New Post"
+date: "2025-09-18"
+description: "Short description of the post."
+published: true
+---
 
-3.  **Create new posts:** Add new `.mdx` files to the `content/posts` directory. Make sure they include the required frontmatter (title, date, description).
+# My New Post
 
-## Key Technologies
+Write content in Markdown + JSX.
+```
 
-*   **Next.js:** A React framework for building server-side rendered and statically generated web applications.
-*   **React:** A JavaScript library for building user interfaces.
-*   **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
-*   **MDX:** A format that allows you to write JSX embedded inside Markdown.
-*   **Content Collections:** A library that helps you manage your content by creating type-safe collections from your local files.
-*   **Tailwind CSS:** A utility-first CSS framework for rapidly building custom designs.
+## Features
 
-## Project Structure
+- File‑based content in MDX with type‑safe frontmatter
+- List and detail pages under `/blog`
+- Clean typography with Tailwind CSS
+- Content Collections build/watch integration
+- Ready for static export or server rendering
 
-The project is organized into several key directories and files:
+## Project structure
 
 ```
 .
@@ -67,88 +69,47 @@ The project is organized into several key directories and files:
 └── tailwind.config.js
 ```
 
-### `content/posts`
+Key folders:
 
-This directory contains all the blog posts as `.mdx` files. Each file represents a single blog post. The frontmatter of each file (the YAML block at the top) contains the metadata for the post, such as the title, date, and description.
+- `content/posts`: Your MDX posts with YAML frontmatter.
+- `src/app/blog`: Blog index and post pages.
+- `src/components`: Reusable UI components.
+- `src/lib`: Utilities for fetching and shaping post data.
 
-### `src/app/blog`
+## Development
 
-This directory contains the main pages for the blog.
-
-*   `page.tsx`: This is the blog index page, which displays a list of all available blog posts. It uses the `getAllPosts` function from `src/lib/posts.ts` to fetch the posts.
-*   `[slug]/page.tsx`: This is the dynamic route for displaying a single blog post. The `[slug]` part of the path corresponds to the filename of the blog post (without the `.mdx` extension). It uses the `getPostBySlug` function to fetch the content of a specific post.
-
-### `src/components`
-
-This directory contains reusable React components.
-
-*   `MdxComponents.tsx`: This component is responsible for rendering the MDX content of a blog post. It uses the `MDXContent` component from `@content-collections/mdx`.
-
-### `src/lib`
-
-This directory contains helper functions and utilities.
-
-*   `posts.ts`: This file provides functions for accessing the blog post data.
-    *   `getAllPosts()`: Returns all posts, sorted by date.
-    *   `getPostBySlug(slug)`: Returns a single post that matches the given slug.
-
-### `content-collections.ts`
-
-This is a crucial file that configures how `content-collections` processes your content. It defines a "collection" of posts, specifying:
-
-*   The directory where the content is located (`content/posts`).
-*   The schema for the frontmatter of the posts (e.g., `title`, `date`, `description`).
-*   How to transform the raw content into a more usable format, such as generating a slug from the filename.
-
-### Configuration Files
-
-*   `next.config.js`: The configuration file for Next.js.
-*   `tailwind.config.js`: The configuration file for Tailwind CSS.
-*   `postcss.config.cjs`: The configuration file for PostCSS.
-*   `tsconfig.json`: The configuration file for TypeScript.
-
-## Content Management
-
-### Creating a New Post
-
-To create a new blog post, simply add a new `.mdx` file to the `content/posts` directory. The file should have a YAML frontmatter block at the top with the required metadata. For example:
-
-```mdx
----
-title: "My New Post"
-date: "2025-09-18"
-description: "This is a short description of my new post."
----
-
-# My New Post
-
-This is the content of my new post. I can use **Markdown** and also embed <span style={{ color: 'red' }}>JSX</span> components.
-```
-
-### Modifying an Existing Post
-
-To modify an existing post, simply edit the corresponding `.mdx` file in the `content/posts` directory. The changes will be reflected on the website after the next build.
-
-## Deployment
-
-The application can be deployed to any platform that supports Next.js, such as Vercel, Netlify, or a custom server. To build the application for production, run the following command:
+This project runs Content Collections alongside Next.js for smooth authoring:
 
 ```bash
-npm run build
+pnpm dev
 ```
 
-This will create an optimized production build in the `.next` directory.
+- Next.js dev server runs at http://localhost:3000
+- Content Collections watches and regenerates types/content as you edit MDX
 
-## Customization
+## Build and deploy
 
-### Styling
+Create an optimized production build:
 
-The project uses Tailwind CSS for styling. You can customize the styles by modifying the `tailwind.config.js` file and the `src/app/globals.css` file. You can also add your own CSS files or.
+```bash
+pnpm build
+pnpm start
+```
 
-### Components
+Deploy anywhere that supports Next.js (e.g., Vercel, Netlify, or your own server).
 
-You can create your own custom React components and use them within your MDX posts. To do this, create a new component in the `src/components` directory and then import it into your `.mdx` file.
+## Content tips
 
-### Content Schema
+- Required frontmatter: `title`, `date`, `description`, `published`
+- Slug is derived from the file path; the blog route uses `/blog/[slug]`
+- Use components from `src/components/MdxComponents.tsx` inside posts
 
-You can extend the content schema by modifying the `content-collections.ts` file. For example, you could add a new field for the author of the post or for tags.
+## Configuration
+
+- Tailwind: `tailwind.config.js` and `src/app/globals.css`
+- Content schema: `content-collections.ts`
+- TypeScript config: `tsconfig.json`
+
+## License
+
+MIT
